@@ -1,0 +1,6 @@
+name,zone_name,area_name,code,village_type,population,postal_code,is_active,notes
+Dijkot,Punjab,Faisalabad,DJK,rural,5000,38000,true,Main agricultural village in Faisalabad district
+Samundri,Punjab,Faisalabad,SMD,urban,15000,38100,true,Commercial hub with market facilities
+Chak 204 RB,Punjab,Faisalabad,C204,rural,3000,38050,true,
+Muzaffargarh,Punjab,Multan,MZG,urban,12000,58300,true,District headquarters with administrative offices
+Dunyapur,Punjab,Multan,DNP,semi-urban,8000,58250,true,Growing town with mixed residential and commercial areas
