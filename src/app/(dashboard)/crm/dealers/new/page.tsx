@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Select } from "@/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ArrowLeft, Save, Loader2 } from "lucide-react"
 import { dealersAPI } from "@/lib/supabase/dealers"
 import { zonesAPI } from "@/lib/supabase/zones"
@@ -262,55 +262,64 @@ export default function NewDealerPage() {
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="zone_id">Zone/Province</Label>
-                  <Select
-                    id="zone_id"
-                    value={formData.zone_id}
-                    onChange={(e) => handleZoneChange(e.target.value)}
-                  >
-                    <option value="">Select Zone</option>
-                    {zones.map((zone) => (
-                      <option key={zone.id} value={zone.id}>
-                        {zone.name}
-                      </option>
-                    ))}
+                  <Select value={formData.zone_id} onValueChange={handleZoneChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Zone" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">Select Zone</SelectItem>
+                      {zones.map((zone) => (
+                        <SelectItem key={zone.id} value={zone.id}>
+                          {zone.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
                   </Select>
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="area_id">Area/District</Label>
-                  <Select
-                    id="area_id"
-                    value={formData.area_id}
-                    onChange={(e) => handleAreaChange(e.target.value)}
+                  <Select 
+                    value={formData.area_id} 
+                    onValueChange={handleAreaChange}
                     disabled={!formData.zone_id}
                   >
-                    <option value="">
-                      {formData.zone_id ? 'Select Area' : 'Select Zone First'}
-                    </option>
-                    {areas.map((area) => (
-                      <option key={area.id} value={area.id}>
-                        {area.name}
-                      </option>
-                    ))}
+                    <SelectTrigger>
+                      <SelectValue placeholder={formData.zone_id ? 'Select Area' : 'Select Zone First'} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">
+                        {formData.zone_id ? 'Select Area' : 'Select Zone First'}
+                      </SelectItem>
+                      {areas.map((area) => (
+                        <SelectItem key={area.id} value={area.id}>
+                          {area.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
                   </Select>
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="village_id">Village/Town</Label>
                   <Select
-                    id="village_id"
                     value={formData.village_id}
-                    onChange={(e) => updateFormData('village_id', e.target.value)}
+                    onValueChange={(value) => updateFormData('village_id', value)}
                     disabled={!formData.area_id}
                   >
-                    <option value="">
-                      {formData.area_id ? 'Select Village' : 'Select Area First'}
-                    </option>
-                    {villages.map((village) => (
-                      <option key={village.id} value={village.id}>
-                        {village.name}
-                      </option>
-                    ))}
+                    <SelectTrigger>
+                      <SelectValue placeholder={formData.area_id ? 'Select Village' : 'Select Area First'} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">
+                        {formData.area_id ? 'Select Village' : 'Select Area First'}
+                      </SelectItem>
+                      {villages.map((village) => (
+                        <SelectItem key={village.id} value={village.id}>
+                          {village.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
                   </Select>
                 </div>
 
@@ -342,16 +351,20 @@ export default function NewDealerPage() {
                     Relationship Status <span className="text-red-500">*</span>
                   </Label>
                   <Select
-                    id="relationship_status"
                     value={formData.relationship_status}
-                    onChange={(e) => updateFormData('relationship_status', e.target.value)}
+                    onValueChange={(value) => updateFormData('relationship_status', value)}
                     required
                   >
-                    <option value="active">Active</option>
-                    <option value="preferred">Preferred</option>
-                    <option value="platinum">Platinum</option>
-                    <option value="at_risk">At Risk</option>
-                    <option value="inactive">Inactive</option>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="active">Active</SelectItem>
+                      <SelectItem value="preferred">Preferred</SelectItem>
+                      <SelectItem value="platinum">Platinum</SelectItem>
+                      <SelectItem value="at_risk">At Risk</SelectItem>
+                      <SelectItem value="inactive">Inactive</SelectItem>
+                    </SelectContent>
                   </Select>
                 </div>
 
@@ -373,28 +386,36 @@ export default function NewDealerPage() {
                 <div className="space-y-2">
                   <Label htmlFor="performance_rating">Performance Rating</Label>
                   <Select
-                    id="performance_rating"
                     value={formData.performance_rating}
-                    onChange={(e) => updateFormData('performance_rating', e.target.value)}
+                    onValueChange={(value) => updateFormData('performance_rating', value)}
                   >
-                    <option value="">Select Rating</option>
-                    <option value="excellent">Excellent</option>
-                    <option value="good">Good</option>
-                    <option value="average">Average</option>
-                    <option value="below_average">Below Average</option>
-                    <option value="poor">Poor</option>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Rating" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">Select Rating</SelectItem>
+                      <SelectItem value="excellent">Excellent</SelectItem>
+                      <SelectItem value="good">Good</SelectItem>
+                      <SelectItem value="average">Average</SelectItem>
+                      <SelectItem value="below_average">Below Average</SelectItem>
+                      <SelectItem value="poor">Poor</SelectItem>
+                    </SelectContent>
                   </Select>
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="is_active">Status</Label>
                   <Select
-                    id="is_active"
                     value={formData.is_active ? 'true' : 'false'}
-                    onChange={(e) => updateFormData('is_active', e.target.value === 'true')}
+                    onValueChange={(value) => updateFormData('is_active', value === 'true')}
                   >
-                    <option value="true">Active</option>
-                    <option value="false">Inactive</option>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="true">Active</SelectItem>
+                      <SelectItem value="false">Inactive</SelectItem>
+                    </SelectContent>
                   </Select>
                 </div>
               </div>
