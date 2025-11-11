@@ -105,9 +105,9 @@ export default function NewFarmerPage() {
         address: formData.address || undefined,
         land_size_acres: formData.landSize ? parseFloat(formData.landSize) : undefined,
         primary_crops: formData.primaryCrops ? formData.primaryCrops.split(',').map(c => c.trim()) : undefined,
-        assigned_tmo_id: formData.assignedTMO || undefined,
-        assigned_field_staff_id: formData.leadSourceFieldStaff || undefined,
-        assigned_dealer_id: formData.assignedDealer || undefined,
+        assigned_tmo: formData.assignedTMO || undefined,
+        assigned_field_staff: formData.leadSourceFieldStaff || undefined,
+        assigned_dealer: formData.assignedDealer || undefined,
       })
 
       if (farmerError || !farmer) {
