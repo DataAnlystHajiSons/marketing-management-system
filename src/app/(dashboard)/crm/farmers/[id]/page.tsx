@@ -83,7 +83,7 @@ export default function FarmerDetailPage({ params }: { params: Promise<{ id: str
   
   // Calculate days since last contact from activities
   const daysSinceLastContact = activities.length > 0
-    ? Math.floor((Date.now() - new Date(activities[0].activity_date || activities[0].date).getTime()) / (1000 * 60 * 60 * 24))
+    ? Math.floor((Date.now() - new Date((activities[0] as any).activity_date || (activities[0] as any).date || activities[0].created_at).getTime()) / (1000 * 60 * 60 * 24))
     : null
   
   // Total purchases from engagements
