@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Select } from "@/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -431,17 +431,21 @@ export default function EditFarmerPage({ params }: { params: Promise<{ id: strin
                     <div className="space-y-2">
                       <Label htmlFor="newProductId">Product *</Label>
                       <Select
-                        id="newProductId"
                         value={newEngagement.productId}
-                        onChange={(e) => setNewEngagement({ ...newEngagement, productId: e.target.value })}
+                        onValueChange={(value) => setNewEngagement({ ...newEngagement, productId: value })}
                         disabled={productsLoading}
                       >
-                        <option value="">Select product</option>
-                        {products.map((product) => (
-                          <option key={product.id} value={product.id}>
-                            {product.product_name}
-                          </option>
-                        ))}
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select product" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="">Select product</SelectItem>
+                          {products.map((product) => (
+                            <SelectItem key={product.id} value={product.id}>
+                              {product.product_name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
                       </Select>
                     </div>
                     <div className="space-y-2">
@@ -456,17 +460,21 @@ export default function EditFarmerPage({ params }: { params: Promise<{ id: strin
                     <div className="space-y-2">
                       <Label htmlFor="newDataSource">Data Source</Label>
                       <Select
-                        id="newDataSource"
                         value={newEngagement.dataSource}
-                        onChange={(e) => setNewEngagement({ ...newEngagement, dataSource: e.target.value as DataSourceType })}
+                        onValueChange={(value) => setNewEngagement({ ...newEngagement, dataSource: value as DataSourceType })}
                       >
-                        <option value="manual_entry">Manual Entry</option>
-                        <option value="data_bank">Data Bank</option>
-                        <option value="fm_invitees">FM Invitees</option>
-                        <option value="fm_attendees">FM Attendees</option>
-                        <option value="fd_invitees">FD Invitees</option>
-                        <option value="fd_attendees">FD Attendees</option>
-                        <option value="repzo">Repzo</option>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select data source" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="manual_entry">Manual Entry</SelectItem>
+                          <SelectItem value="data_bank">Data Bank</SelectItem>
+                          <SelectItem value="fm_invitees">FM Invitees</SelectItem>
+                          <SelectItem value="fm_attendees">FM Attendees</SelectItem>
+                          <SelectItem value="fd_invitees">FD Invitees</SelectItem>
+                          <SelectItem value="fd_attendees">FD Attendees</SelectItem>
+                          <SelectItem value="repzo">Repzo</SelectItem>
+                        </SelectContent>
                       </Select>
                     </div>
                   </div>
@@ -475,31 +483,39 @@ export default function EditFarmerPage({ params }: { params: Promise<{ id: strin
                     <div className="space-y-2">
                       <Label htmlFor="newAssignedTMO">Assign to TMO</Label>
                       <Select
-                        id="newAssignedTMO"
                         value={newEngagement.assignedTMO}
-                        onChange={(e) => setNewEngagement({ ...newEngagement, assignedTMO: e.target.value })}
+                        onValueChange={(value) => setNewEngagement({ ...newEngagement, assignedTMO: value })}
                       >
-                        <option value="">Select TMO (Optional)</option>
-                        {tmos.map((tmo) => (
-                          <option key={tmo.id} value={tmo.id}>
-                            {tmo.full_name}
-                          </option>
-                        ))}
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select TMO (Optional)" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="">Select TMO (Optional)</SelectItem>
+                          {tmos.map((tmo) => (
+                            <SelectItem key={tmo.id} value={tmo.id}>
+                              {tmo.full_name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
                       </Select>
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="newFieldStaff">Field Staff</Label>
                       <Select
-                        id="newFieldStaff"
                         value={newEngagement.fieldStaff}
-                        onChange={(e) => setNewEngagement({ ...newEngagement, fieldStaff: e.target.value })}
+                        onValueChange={(value) => setNewEngagement({ ...newEngagement, fieldStaff: value })}
                       >
-                        <option value="">Select Field Staff (Optional)</option>
-                        {fieldStaff.map((staff) => (
-                          <option key={staff.id} value={staff.id}>
-                            {staff.full_name} - {staff.staff_code}
-                          </option>
-                        ))}
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select Field Staff (Optional)" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="">Select Field Staff (Optional)</SelectItem>
+                          {fieldStaff.map((staff) => (
+                            <SelectItem key={staff.id} value={staff.id}>
+                              {staff.full_name} - {staff.staff_code}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
                       </Select>
                     </div>
                   </div>
