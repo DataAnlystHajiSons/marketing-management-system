@@ -360,21 +360,21 @@ export default function DealerSalesImportPage() {
           
           return {
             dealer_id: sale.dealer_id,
-            product_id: sale.product_id || null,
+            product_id: sale.product_id || undefined,
             transaction_type: sale.transaction_type.toLowerCase(),
             transaction_date: sale.transaction_date,
             reference_number: sale.reference_number,
             product_name: sale.product_name,
-            product_code: sale.product_code || null,
+            product_code: sale.product_code || undefined,
             quantity: quantity,
             unit_price: unitPrice,
             amount: quantity * unitPrice, // Will be negative for credit memos
             discount_amount: sale.discount_amount ? parseFloat(String(sale.discount_amount)) : 0,
             tax_amount: sale.tax_amount ? parseFloat(String(sale.tax_amount)) : 0,
             payment_status: sale.payment_status?.toLowerCase() || 'pending',
-            payment_date: sale.payment_date || null,
-            due_date: sale.due_date || null,
-            notes: sale.notes || null,
+            payment_date: sale.payment_date || undefined,
+            due_date: sale.due_date || undefined,
+            notes: sale.notes || undefined,
           }
         })
 
