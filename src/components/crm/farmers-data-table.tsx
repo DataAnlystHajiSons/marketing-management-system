@@ -79,7 +79,7 @@ interface FarmersDataTableProps {
   highlightedRowId?: string | null
   onRowAction?: (farmerId: string) => void
   onSelectionChange?: (selectedIds: string[]) => void
-  tableScrollRef?: React.RefObject<HTMLDivElement>
+  tableScrollRef?: React.RefObject<HTMLDivElement | null>
   onPreferencesChange?: (preferences: TablePreferences) => void
   onPreferencesControlsReady?: (controls: {
     preferences: TablePreferences
