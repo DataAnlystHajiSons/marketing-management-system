@@ -87,6 +87,8 @@ export default function FarmersImportPage() {
       total: validatedData.length,
       successful: 0,
       failed: 0,
+      skipped: 0,
+      updated: 0,
       errors: []
     })
 
