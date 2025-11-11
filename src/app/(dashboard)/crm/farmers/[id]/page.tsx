@@ -685,7 +685,7 @@ export default function FarmerDetailPage({ params }: { params: Promise<{ id: str
                           </div>
                         </div>
                         <Badge className={stageColors[eng.lead_stage]}>
-                          {stageLabels[eng.lead_stage as any]}
+                          {stageLabels[eng.lead_stage as LeadStage]}
                         </Badge>
                       </div>
 
