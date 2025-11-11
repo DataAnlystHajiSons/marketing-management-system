@@ -117,7 +117,7 @@ export default function EditFarmerPage({ params }: { params: Promise<{ id: strin
     setError('')
 
     try {
-      const { error: err } = await farmersAPI.update(id, {
+      const updateData: any = {
         farmer_code: formData.farmerCode,
         full_name: formData.fullName,
         phone: formData.phone,
@@ -131,10 +131,12 @@ export default function EditFarmerPage({ params }: { params: Promise<{ id: strin
         address: formData.address || undefined,
         land_size_acres: formData.landSize ? parseFloat(formData.landSize) : undefined,
         primary_crops: formData.primaryCrops ? formData.primaryCrops.split(',').map(c => c.trim()) : undefined,
-        assigned_tmo: formData.assignedTMO || undefined,
-        assigned_field_staff: formData.leadSourceFieldStaff || undefined,
-        assigned_dealer: formData.assignedDealer || undefined,
-      })
+        assigned_tmo_id: formData.assignedTMO || undefined,
+        assigned_field_staff_id: formData.leadSourceFieldStaff || undefined,
+        assigned_dealer_id: formData.assignedDealer || undefined,
+      }
+      
+      const { error: err } = await farmersAPI.update(id, updateData)
 
       if (err) {
         setError(err.message || 'Failed to update farmer')

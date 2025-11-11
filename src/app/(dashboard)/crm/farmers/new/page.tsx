@@ -90,7 +90,7 @@ export default function NewFarmerPage() {
 
     try {
       // Step 1: Create farmer (demographics + assignments)
-      const { data: farmer, error: farmerError } = await farmersAPI.create({
+      const farmerData: any = {
         full_name: formData.fullName,
         phone: formData.phone,
         alternate_phone: formData.alternatePhone || undefined,
@@ -105,10 +105,12 @@ export default function NewFarmerPage() {
         address: formData.address || undefined,
         land_size_acres: formData.landSize ? parseFloat(formData.landSize) : undefined,
         primary_crops: formData.primaryCrops ? formData.primaryCrops.split(',').map(c => c.trim()) : undefined,
-        assigned_tmo: formData.assignedTMO || undefined,
-        assigned_field_staff: formData.leadSourceFieldStaff || undefined,
-        assigned_dealer: formData.assignedDealer || undefined,
-      })
+        assigned_tmo_id: formData.assignedTMO || undefined,
+        assigned_field_staff_id: formData.leadSourceFieldStaff || undefined,
+        assigned_dealer_id: formData.assignedDealer || undefined,
+      }
+      
+      const { data: farmer, error: farmerError } = await farmersAPI.create(farmerData)
 
       if (farmerError || !farmer) {
         setError(farmerError?.message || 'Failed to create farmer')
