@@ -71,11 +71,11 @@ export default function FarmerDetailPage({ params }: { params: Promise<{ id: str
     : farmer.lead_score
   
   // Get best quality across active engagements (hot > warm > cold)
-  const qualityPriority = { hot: 3, warm: 2, cold: 1 }
+  const qualityPriority: { [key: string]: number } = { hot: 3, warm: 2, cold: 1 }
   const bestQuality = activeEngagements.length > 0
     ? activeEngagements.reduce((best, eng) => 
-        qualityPriority[eng.lead_quality] > qualityPriority[best] ? eng.lead_quality : best
-      , 'cold')
+        (qualityPriority[eng.lead_quality] || 0) > (qualityPriority[best] || 0) ? eng.lead_quality : best
+      , 'cold' as string)
     : farmer.lead_quality
   
   // Total interactions from all activities
