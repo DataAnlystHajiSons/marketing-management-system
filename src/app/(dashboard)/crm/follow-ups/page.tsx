@@ -5,7 +5,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Select } from "@/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -257,46 +257,58 @@ export default function FollowUpsPage() {
             <div className="space-y-2">
               <Label htmlFor="tmo">TMO</Label>
               <Select
-                id="tmo"
                 value={selectedTMO}
-                onChange={(e) => setSelectedTMO(e.target.value)}
+                onValueChange={(value) => setSelectedTMO(value)}
               >
-                <option value="">All TMOs</option>
-                {tmos.map((tmo) => (
-                  <option key={tmo.id} value={tmo.id}>
-                    {tmo.full_name}
-                  </option>
-                ))}
+                <SelectTrigger>
+                  <SelectValue placeholder="All TMOs" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">All TMOs</SelectItem>
+                  {tmos.map((tmo) => (
+                    <SelectItem key={tmo.id} value={tmo.id}>
+                      {tmo.full_name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
               <Label htmlFor="product">Product</Label>
               <Select
-                id="product"
                 value={selectedProduct}
-                onChange={(e) => setSelectedProduct(e.target.value)}
+                onValueChange={(value) => setSelectedProduct(value)}
               >
-                <option value="">All Products</option>
-                {products.map((product) => (
-                  <option key={product.id} value={product.id}>
-                    {product.product_name}
-                  </option>
-                ))}
+                <SelectTrigger>
+                  <SelectValue placeholder="All Products" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">All Products</SelectItem>
+                  {products.map((product) => (
+                    <SelectItem key={product.id} value={product.id}>
+                      {product.product_name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
               <Label htmlFor="season">Season</Label>
               <Select
-                id="season"
                 value={selectedSeason}
-                onChange={(e) => setSelectedSeason(e.target.value)}
+                onValueChange={(value) => setSelectedSeason(value)}
               >
-                <option value="">All Seasons</option>
-                {seasons.map((season) => (
-                  <option key={season} value={season}>
-                    {season}
-                  </option>
-                ))}
+                <SelectTrigger>
+                  <SelectValue placeholder="All Seasons" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">All Seasons</SelectItem>
+                  {seasons.map((season) => (
+                    <SelectItem key={season} value={season}>
+                      {season}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
               </Select>
             </div>
             <div className="space-y-2 flex items-end">
