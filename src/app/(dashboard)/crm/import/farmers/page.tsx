@@ -202,7 +202,7 @@ export default function FarmersImportPage() {
               assigned_tmo_id: farmer.assigned_tmo_id || undefined,
               assigned_field_staff_id: farmer.assigned_field_staff_id || undefined,
               assigned_dealer_id: farmer.assigned_dealer_id || undefined,
-            })
+            } as any)
 
             if (updateError) {
               failed++
@@ -228,7 +228,7 @@ export default function FarmersImportPage() {
               assigned_tmo_id: farmer.assigned_tmo_id || undefined,
               assigned_field_staff_id: farmer.assigned_field_staff_id || undefined,
               assigned_dealer_id: farmer.assigned_dealer_id || undefined,
-            })
+            } as any)
 
             if (createError) {
               failed++
@@ -255,7 +255,7 @@ export default function FarmersImportPage() {
             assigned_tmo_id: farmer.assigned_tmo_id || undefined,
             assigned_field_staff_id: farmer.assigned_field_staff_id || undefined,
             assigned_dealer_id: farmer.assigned_dealer_id || undefined,
-          })
+          } as any)
 
           if (createError) {
             failed++
