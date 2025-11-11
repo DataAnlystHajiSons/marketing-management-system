@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Select } from "@/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ArrowLeft, AlertCircle, Package } from "lucide-react"
@@ -305,18 +305,21 @@ export default function NewFarmerPage() {
                   <div className="space-y-2">
                     <Label htmlFor="productId">Product/Crop</Label>
                     <Select
-                      id="productId"
-                      name="productId"
                       value={formData.productId}
-                      onChange={handleChange}
+                      onValueChange={(value) => handleChange({ target: { name: 'productId', value } } as any)}
                       disabled={productsLoading}
                     >
-                      <option value="">Select product (optional)</option>
-                      {products.map((product) => (
-                        <option key={product.id} value={product.id}>
-                          {product.product_name}
-                        </option>
-                      ))}
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select product (optional)" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="">Select product (optional)</SelectItem>
+                        {products.map((product) => (
+                          <SelectItem key={product.id} value={product.id}>
+                            {product.product_name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
                     </Select>
                   </div>
                   <div className="space-y-2">
@@ -332,18 +335,21 @@ export default function NewFarmerPage() {
                   <div className="space-y-2">
                     <Label htmlFor="dataSource">Data Source</Label>
                     <Select
-                      id="dataSource"
-                      name="dataSource"
                       value={formData.dataSource}
-                      onChange={handleChange}
+                      onValueChange={(value) => handleChange({ target: { name: 'dataSource', value } } as any)}
                     >
-                      <option value="manual_entry">Manual Entry</option>
-                      <option value="data_bank">Data Bank</option>
-                      <option value="fm_invitees">FM Invitees</option>
-                      <option value="fm_attendees">FM Attendees</option>
-                      <option value="fd_invitees">FD Invitees</option>
-                      <option value="fd_attendees">FD Attendees</option>
-                      <option value="repzo">Repzo</option>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select data source" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="manual_entry">Manual Entry</SelectItem>
+                        <SelectItem value="data_bank">Data Bank</SelectItem>
+                        <SelectItem value="fm_invitees">FM Invitees</SelectItem>
+                        <SelectItem value="fm_attendees">FM Attendees</SelectItem>
+                        <SelectItem value="fd_invitees">FD Invitees</SelectItem>
+                        <SelectItem value="fd_attendees">FD Attendees</SelectItem>
+                        <SelectItem value="repzo">Repzo</SelectItem>
+                      </SelectContent>
                     </Select>
                   </div>
                 </div>
@@ -356,19 +362,22 @@ export default function NewFarmerPage() {
                 <div className="space-y-2">
                   <Label htmlFor="assignedTMO">Assign to TMO *</Label>
                   <Select
-                    id="assignedTMO"
-                    name="assignedTMO"
                     value={formData.assignedTMO}
-                    onChange={handleChange}
+                    onValueChange={(value) => handleChange({ target: { name: 'assignedTMO', value } } as any)}
                     disabled={loadingUsers}
                     required
                   >
-                    <option value="">Select Telemarketing Officer</option>
-                    {tmos.map((tmo) => (
-                      <option key={tmo.id} value={tmo.id}>
-                        {tmo.full_name} {tmo.email ? `(${tmo.email})` : ''}
-                      </option>
-                    ))}
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Telemarketing Officer" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">Select Telemarketing Officer</SelectItem>
+                      {tmos.map((tmo) => (
+                        <SelectItem key={tmo.id} value={tmo.id}>
+                          {tmo.full_name} {tmo.email ? `(${tmo.email})` : ''}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
                   </Select>
                   {loadingUsers && (
                     <p className="text-xs text-muted-foreground">Loading TMOs...</p>
@@ -380,18 +389,21 @@ export default function NewFarmerPage() {
                 <div className="space-y-2">
                   <Label htmlFor="leadSourceFieldStaff">Field Staff</Label>
                   <Select
-                    id="leadSourceFieldStaff"
-                    name="leadSourceFieldStaff"
                     value={formData.leadSourceFieldStaff}
-                    onChange={handleChange}
+                    onValueChange={(value) => handleChange({ target: { name: 'leadSourceFieldStaff', value } } as any)}
                     disabled={loadingUsers}
                   >
-                    <option value="">Select Field Staff (Optional)</option>
-                    {fieldStaff.map((staff) => (
-                      <option key={staff.id} value={staff.id}>
-                        {staff.full_name} - {staff.staff_code}
-                      </option>
-                    ))}
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Field Staff (Optional)" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">Select Field Staff (Optional)</SelectItem>
+                      {fieldStaff.map((staff) => (
+                        <SelectItem key={staff.id} value={staff.id}>
+                          {staff.full_name} - {staff.staff_code}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
                   </Select>
                   {loadingUsers && (
                     <p className="text-xs text-muted-foreground">Loading Field Staff...</p>
@@ -403,18 +415,21 @@ export default function NewFarmerPage() {
                 <div className="space-y-2">
                   <Label htmlFor="assignedDealer">Assigned Dealer</Label>
                   <Select
-                    id="assignedDealer"
-                    name="assignedDealer"
                     value={formData.assignedDealer}
-                    onChange={handleChange}
+                    onValueChange={(value) => handleChange({ target: { name: 'assignedDealer', value } } as any)}
                     disabled={loadingUsers}
                   >
-                    <option value="">Select Dealer (Optional)</option>
-                    {dealers.map((dealer) => (
-                      <option key={dealer.id} value={dealer.id}>
-                        {dealer.business_name} - {dealer.dealer_code}
-                      </option>
-                    ))}
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Dealer (Optional)" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">Select Dealer (Optional)</SelectItem>
+                      {dealers.map((dealer) => (
+                        <SelectItem key={dealer.id} value={dealer.id}>
+                          {dealer.business_name} - {dealer.dealer_code}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
                   </Select>
                   {loadingUsers && (
                     <p className="text-xs text-muted-foreground">Loading Dealers...</p>
