@@ -100,7 +100,6 @@ export default function NewFarmerPage() {
         area_id: formData.areaId || undefined,
         village_id: formData.villageId || undefined,
         // Old location fields (keep for backward compatibility during migration)
-        village: formData.village || undefined,
         city: formData.city || undefined,
         district: formData.district || undefined,
         address: formData.address || undefined,

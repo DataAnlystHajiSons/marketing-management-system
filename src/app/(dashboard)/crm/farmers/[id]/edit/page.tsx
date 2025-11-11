@@ -126,7 +126,6 @@ export default function EditFarmerPage({ params }: { params: Promise<{ id: strin
         zone_id: formData.zoneId || undefined,
         area_id: formData.areaId || undefined,
         village_id: formData.villageId || undefined,
-        village: formData.village || undefined,
         city: formData.city || undefined,
         district: formData.district || undefined,
         address: formData.address || undefined,

@@ -466,16 +466,20 @@ export default function NewDealerPage() {
               <div className="space-y-2">
                 <Label htmlFor="field_staff_id">Assigned Field Staff</Label>
                 <Select
-                  id="field_staff_id"
                   value={formData.field_staff_id}
-                  onChange={(e) => updateFormData('field_staff_id', e.target.value)}
+                  onValueChange={(value) => updateFormData('field_staff_id', value)}
                 >
-                  <option value="">Select Field Staff</option>
-                  {fieldStaff.map((staff) => (
-                    <option key={staff.id} value={staff.id}>
-                      {staff.full_name} ({staff.staff_code})
-                    </option>
-                  ))}
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Field Staff" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">Select Field Staff</SelectItem>
+                    {fieldStaff.map((staff) => (
+                      <SelectItem key={staff.id} value={staff.id}>
+                        {staff.full_name} ({staff.staff_code})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
                 </Select>
               </div>
             </CardContent>
