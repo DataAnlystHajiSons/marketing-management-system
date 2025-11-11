@@ -378,13 +378,13 @@ export default function DealerSalesImportPage() {
           }
         })
 
-        const { error: batchError } = await dealerSalesAPI.bulkCreate(salesToInsert)
+        const { error: batchError } = await dealerSalesAPI.bulkCreate(salesToInsert as any)
 
         if (batchError) {
           console.error('Batch import error:', batchError)
           // Try to import individually to identify which ones fail
           for (const sale of salesToInsert) {
-            const { error: singleError } = await dealerSalesAPI.create(sale)
+            const { error: singleError } = await dealerSalesAPI.create(sale as any)
             if (singleError) {
               console.error(`Failed to import ${sale.reference_number}:`, singleError.message)
               failed++
