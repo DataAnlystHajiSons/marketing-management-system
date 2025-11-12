@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -14,78 +14,52 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Plus, Search, Filter, Phone } from "lucide-react"
-
-interface FieldStaff {
-  id: string
-  code: string
-  name: string
-  phone: string
-  email: string
-  zone: string
-  area: string
-  designation: string
-  assignedDealers: number
-  activeFarmers: number
-  isActive: boolean
-  joiningDate: string
-}
-
-const mockFieldStaff: FieldStaff[] = [
-  {
-    id: '1',
-    code: 'FS-001',
-    name: 'Ahmed Khan',
-    phone: '0300-1111111',
-    email: 'ahmed.khan@company.com',
-    zone: 'Central',
-    area: 'Faisalabad',
-    designation: 'Senior Field Officer',
-    assignedDealers: 15,
-    activeFarmers: 250,
-    isActive: true,
-    joiningDate: '2022-01-15'
-  },
-  {
-    id: '2',
-    code: 'FS-002',
-    name: 'Imran Ali',
-    phone: '0301-2222222',
-    email: 'imran.ali@company.com',
-    zone: 'South',
-    area: 'Multan',
-    designation: 'Field Officer',
-    assignedDealers: 12,
-    activeFarmers: 180,
-    isActive: true,
-    joiningDate: '2022-06-10'
-  },
-  {
-    id: '3',
-    code: 'FS-003',
-    name: 'Hassan Raza',
-    phone: '0303-3333333',
-    email: 'hassan.raza@company.com',
-    zone: 'North',
-    area: 'Lahore',
-    designation: 'Field Officer',
-    assignedDealers: 18,
-    activeFarmers: 320,
-    isActive: true,
-    joiningDate: '2021-09-20'
-  },
-]
+import { Plus, Search, Filter, Phone, Edit, Eye, Loader2 } from "lucide-react"
+import { fieldStaffAPI, type FieldStaff } from "@/lib/supabase/field-staff"
+import { LoadingPage } from "@/components/ui/loading-spinner"
+import { ErrorMessage } from "@/components/ui/error-message"
 
 export default function FieldStaffPage() {
   const [searchQuery, setSearchQuery] = useState('')
-  const [staff] = useState<FieldStaff[]>(mockFieldStaff)
+  const [staff, setStaff] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    loadFieldStaff()
+  }, [])
+
+  const loadFieldStaff = async () => {
+    setLoading(true)
+    setError(null)
+    
+    const { data, error: fetchError } = await fieldStaffAPI.getAll()
+    
+    if (fetchError) {
+      setError(fetchError.message)
+      setLoading(false)
+      return
+    }
+    
+    setStaff(data || [])
+    setLoading(false)
+  }
 
   const filteredStaff = staff.filter(s =>
-    s.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    s.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    s.phone.includes(searchQuery) ||
-    s.area.toLowerCase().includes(searchQuery.toLowerCase())
+    s.full_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    s.staff_code?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    s.phone?.includes(searchQuery) ||
+    s.zones?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    s.areas?.name?.toLowerCase().includes(searchQuery.toLowerCase())
   )
+
+  if (loading) {
+    return <LoadingPage />
+  }
+
+  if (error) {
+    return <ErrorMessage message={error} />
+  }
 
   return (
     <div className="space-y-6">
@@ -94,53 +68,44 @@ export default function FieldStaffPage() {
           <h1 className="text-3xl font-bold">Field Staff</h1>
           <p className="text-muted-foreground">Manage field team and assignments</p>
         </div>
-        <Button>
-          <Plus className="mr-2 h-4 w-4" />
-          Add Field Staff
-        </Button>
+        <Link href="/management/field-staff/new">
+          <Button>
+            <Plus className="mr-2 h-4 w-4" />
+            Add Field Staff
+          </Button>
+        </Link>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-4">
+      <div className="grid gap-6 md:grid-cols-3">
         <Card>
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-medium text-muted-foreground">Total Staff</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{staff.length}</div>
-            <p className="text-xs text-muted-foreground mt-1">Active members</p>
+            <p className="text-xs text-muted-foreground mt-1">Field staff members</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Total Dealers</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Active Staff</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {staff.reduce((sum, s) => sum + s.assignedDealers, 0)}
+              {staff.filter(s => s.is_active).length}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">Assigned</p>
+            <p className="text-xs text-muted-foreground mt-1">Currently active</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Total Farmers</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Inactive Staff</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {staff.reduce((sum, s) => sum + s.activeFarmers, 0)}
+              {staff.filter(s => !s.is_active).length}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">Active connections</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Avg per Staff</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {Math.round(staff.reduce((sum, s) => sum + s.activeFarmers, 0) / staff.length)}
-            </div>
-            <p className="text-xs text-muted-foreground mt-1">Farmers each</p>
+            <p className="text-xs text-muted-foreground mt-1">Not currently active</p>
           </CardContent>
         </Card>
       </div>
@@ -177,44 +142,70 @@ export default function FieldStaffPage() {
                 <TableHead>Phone</TableHead>
                 <TableHead>Designation</TableHead>
                 <TableHead>Zone/Area</TableHead>
-                <TableHead>Dealers</TableHead>
-                <TableHead>Farmers</TableHead>
+                <TableHead>Joining Date</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredStaff.map((member) => (
-                <TableRow key={member.id}>
-                  <TableCell className="font-medium">{member.code}</TableCell>
-                  <TableCell>
-                    <div className="space-y-1">
-                      <p className="text-sm font-medium">{member.name}</p>
-                      <p className="text-xs text-muted-foreground">{member.email}</p>
-                    </div>
-                  </TableCell>
-                  <TableCell className="text-sm">{member.phone}</TableCell>
-                  <TableCell className="text-sm">{member.designation}</TableCell>
-                  <TableCell>
-                    <div className="space-y-1">
-                      <p className="text-sm font-medium">{member.zone}</p>
-                      <p className="text-xs text-muted-foreground">{member.area}</p>
-                    </div>
-                  </TableCell>
-                  <TableCell className="text-sm font-medium">{member.assignedDealers}</TableCell>
-                  <TableCell className="text-sm font-medium">{member.activeFarmers}</TableCell>
-                  <TableCell>
-                    <Badge variant={member.isActive ? 'success' : 'secondary'}>
-                      {member.isActive ? 'Active' : 'Inactive'}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <Button variant="ghost" size="icon">
-                      <Phone className="h-4 w-4" />
-                    </Button>
+              {filteredStaff.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={8} className="text-center text-muted-foreground py-8">
+                    No field staff found. Add your first staff member to get started.
                   </TableCell>
                 </TableRow>
-              ))}
+              ) : (
+                filteredStaff.map((member) => (
+                  <TableRow key={member.id}>
+                    <TableCell className="font-medium">{member.staff_code}</TableCell>
+                    <TableCell>
+                      <div className="space-y-1">
+                        <p className="text-sm font-medium">{member.full_name}</p>
+                        {member.email && (
+                          <p className="text-xs text-muted-foreground">{member.email}</p>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-sm">{member.phone}</TableCell>
+                    <TableCell className="text-sm">{member.designation || '-'}</TableCell>
+                    <TableCell>
+                      <div className="space-y-1">
+                        {member.zones && (
+                          <p className="text-sm font-medium">{member.zones.name}</p>
+                        )}
+                        {member.areas && (
+                          <p className="text-xs text-muted-foreground">{member.areas.name}</p>
+                        )}
+                        {!member.zones && !member.areas && (
+                          <p className="text-sm text-muted-foreground">-</p>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-sm">
+                      {member.joining_date ? new Date(member.joining_date).toLocaleDateString() : '-'}
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant={member.is_active ? 'default' : 'secondary'}>
+                        {member.is_active ? 'Active' : 'Inactive'}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-1">
+                        <Link href={`/management/field-staff/${member.id}/edit`}>
+                          <Button variant="ghost" size="icon" title="Edit">
+                            <Edit className="h-4 w-4" />
+                          </Button>
+                        </Link>
+                        <a href={`tel:${member.phone}`}>
+                          <Button variant="ghost" size="icon" title="Call">
+                            <Phone className="h-4 w-4" />
+                          </Button>
+                        </a>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         </CardContent>
