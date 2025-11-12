@@ -257,14 +257,14 @@ export default function FollowUpsPage() {
             <div className="space-y-2">
               <Label htmlFor="tmo">TMO</Label>
               <Select
-                value={selectedTMO}
-                onValueChange={(value) => setSelectedTMO(value)}
+                value={selectedTMO || undefined}
+                onValueChange={(value) => setSelectedTMO(value === 'all' ? '' : value)}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="All TMOs" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All TMOs</SelectItem>
+                  <SelectItem value="all">All TMOs</SelectItem>
                   {tmos.map((tmo) => (
                     <SelectItem key={tmo.id} value={tmo.id}>
                       {tmo.full_name}
@@ -276,14 +276,14 @@ export default function FollowUpsPage() {
             <div className="space-y-2">
               <Label htmlFor="product">Product</Label>
               <Select
-                value={selectedProduct}
-                onValueChange={(value) => setSelectedProduct(value)}
+                value={selectedProduct || undefined}
+                onValueChange={(value) => setSelectedProduct(value === 'all' ? '' : value)}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="All Products" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Products</SelectItem>
+                  <SelectItem value="all">All Products</SelectItem>
                   {products.map((product) => (
                     <SelectItem key={product.id} value={product.id}>
                       {product.product_name}
@@ -295,14 +295,14 @@ export default function FollowUpsPage() {
             <div className="space-y-2">
               <Label htmlFor="season">Season</Label>
               <Select
-                value={selectedSeason}
-                onValueChange={(value) => setSelectedSeason(value)}
+                value={selectedSeason || undefined}
+                onValueChange={(value) => setSelectedSeason(value === 'all' ? '' : value)}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="All Seasons" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Seasons</SelectItem>
+                  <SelectItem value="all">All Seasons</SelectItem>
                   {seasons.map((season) => (
                     <SelectItem key={season} value={season}>
                       {season}
